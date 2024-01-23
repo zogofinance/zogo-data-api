@@ -32,10 +32,10 @@ Test credentials:
 ### Query Parameter Explanations:
 
 <details>
-<summary>`start_date`:</summary>
+start_date:
   - YYYY-MM-DD format, query starts at 00:00:00 of the given day
   - if empty, will search from the earliest data point
-  <details>
+  </details>
 
 - end_date
   - YYYY-MM-DD format, query ends at 23:59:59 of the given day
@@ -129,6 +129,8 @@ Optional
   ]
 }
 ```
+
+  </details>
 
 - GET /active-user
   Description - get users who have logged in at least once between the start and end date.
