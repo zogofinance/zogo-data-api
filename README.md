@@ -33,69 +33,71 @@ Test credentials:
 
 <details>
 <summary>start_date:</summary>
-  - YYYY-MM-DD format, query starts at 00:00:00 of the given day
-  - if empty, will search from the earliest data point
-</details>
+
+- YYYY-MM-DD format, query starts at 00:00:00 of the given day
+- if empty, will search from the earliest data point
+  </details>
 
 <details>
 <summary>end_date:</summary>
-  - YYYY-MM-DD format, query ends at 23:59:59 of the given day
-  - if empty, will search from the most recent data point
+
+- YYYY-MM-DD format, query ends at 23:59:59 of the given day
+- if empty, will search from the most recent data point
 </details>
 
 <details>
 <summary>platform:</summary>
-  - one of:
-    - web
-    - digital_banking
-    - standalone
-    - integration
-  - if empty, will search data from all platforms
+
+- one of:
+  - web
+  - digital_banking
+  - standalone
+  - integration
+- if empty, will search data from all platforms
 </details>
 
 <details>
 <summary>user_group:</summary>
-  - only applicable for “web” platform
-  - if empty, will search data from both unregistered and registered users
-  - one of:
-    - unregistered
-    - registered
-</details>
+
+- only applicable for “web” platform
+- if empty, will search data from both unregistered and registered users
+- one of:
+  - unregistered
+  - registered
+  </details>
 
 <details>
 <summary>age_group:</summary>
-  - only applicable for “standalone” and “digital_banking” platforms
-  - if empty, will search data from all users
-  - one of:
-    - teen
-      - 13-17 years old
-    - young_adult
-      - 18-24 years old
-    - adult
-      - 25-34 years old
-    - old_adult
-      - 35+
-    - unknown
-</details>
+
+- only applicable for “standalone” and “digital_banking” platforms
+- if empty, will search data from all users
+- one of:
+  - teen (13-17 years old)
+  - young_adult (18-24 years old)
+  - adult (25-34 years old)
+  - old_adult (35+ years old)
+  - unknown
+  </details>
 
 <details>
 <summary>zip_codes:</summary>
-  - only applicable for “standalone” platform
-  - if empty, will search data from all zip codes
-  - string that is `encodeURIComponent` and JSON.stringify of an array
-  - Javascript example:
 
-    ```jsx
-    const zip_codes = ["11111", "22222", "33333"];
+- only applicable for "standalone" platform
+- if empty, will search data from all zip codes
+- string that is `encodeURIComponent` and JSON.stringify of an array
+- Javascript example:
 
-    // Convert the array to a JSON string and include it in the query parameter
-    const query_string = `zip_codes=${encodeURIComponent(
-      JSON.stringify(zip_codes)
-    )}`;
+  ```jsx
+  const zip_codes = ["11111", "22222", "33333"];
 
-    // Append the query string to the URL
-    const url = `https://api.zogofinance.com/integration/data?${query_string}`;
-    ```
+  // Convert the array to a JSON string and include it in the query parameter
+  const query_string = `zip_codes=${encodeURIComponent(
+    JSON.stringify(zip_codes)
+  )}`;
+
+  // Append the query string to the URL
+  const url = `https://api.zogofinance.com/integration/data?${query_string}`;
+  ```
 
 </details>
 
