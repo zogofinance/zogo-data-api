@@ -39,7 +39,7 @@ All API routes use basic authentication.
 - Username: `dataapitest`
 - Password: `dataapitest`
 
-### Query Parameters:
+### Query Parameters
 
 <details>
 <summary><b>start_date</b></summary>
@@ -210,7 +210,7 @@ Optional
       "category_name": "Savings and Spending",
       "category_id": 1,
       "active_user_count": 200,
-      "completed_skill_user_count": 100,
+      "completed_user_count": 100,
       "question_accuracy": 98.1
     }
   ]
