@@ -18,37 +18,47 @@ curl --location 'https://api.zogofinance.com/production/v1/integration/analytics
 --header 'Authorization: Basic ZGF0YWFwaXRlc3Q6ZGF0YWFwaXRlc3Q='
 ```
 
+# API Reference
+
+## General
+
+### Base URL
+
+All API routes should be appended to the following base URL: `https://api.zogofinance.com/production/v1/integration/analytics`
+
 ### Authentication
 
 All API routes use basic authentication.
 
-Production: please get your credentials from your Zogo representative.
+**Production:**
 
-Test credentials:
+- Please get your credentials from your Zogo representative.
 
-- username: dataapitest
-- password: dataapitest
+**Testing/Development:**
 
-### Query Parameter Explanations:
+- Username: `dataapitest`
+- Password: `dataapitest`
+
+### Query Parameters:
 
 <details>
-<summary>start_date:</summary>
+<summary><b>start_date</b></summary>
 
 - YYYY-MM-DD format, query starts at 00:00:00 of the given day
 - if empty, will search from the earliest data point
   </details>
 
 <details>
-<summary>end_date:</summary>
+<summary>end_date</summary>
 
 - YYYY-MM-DD format, query ends at 23:59:59 of the given day
 - if empty, will search from the most recent data point
 </details>
 
 <details>
-<summary>platform:</summary>
+<summary>platform</summary>
 
-- one of:
+- one of the following:
   - web
   - digital_banking
   - standalone
@@ -57,17 +67,17 @@ Test credentials:
 </details>
 
 <details>
-<summary>user_group:</summary>
+<summary>user_group</summary>
 
 - only applicable for “web” platform
-- if empty, will search data from both unregistered and registered users
-- one of:
+- one of the following:
   - unregistered
   - registered
+- if empty, will search data from both unregistered and registered users
   </details>
 
 <details>
-<summary>age_group:</summary>
+<summary>age_group</summary>
 
 - only applicable for “standalone” and “digital_banking” platforms
 - if empty, will search data from all users
@@ -80,11 +90,10 @@ Test credentials:
   </details>
 
 <details>
-<summary>zip_codes:</summary>
+<summary>zip_codes</summary>
 
 - only applicable for "standalone" platform
 - if empty, will search data from all zip codes
-- string that is `encodeURIComponent` and JSON.stringify of an array
 - Javascript example:
 
   ```jsx
@@ -100,14 +109,6 @@ Test credentials:
   ```
 
 </details>
-
-# API Reference
-
-## General
-
-### API Base URL
-
-All API routes should be appended to the following base URL: `https://api.zogofinance.com/production/v1/integration/analytics`
 
 ## API Routes
 
@@ -390,6 +391,6 @@ Optional
 
 </details>
 
-### Rate Limits:
+## Rate Limits
 
 No rate limits
