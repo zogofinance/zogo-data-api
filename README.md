@@ -1,6 +1,6 @@
 # Zogo Data API
 
-### Quick Start:
+## Quick Start:
 
 Here’s a postman collection that can be useful:
 
@@ -10,7 +10,6 @@ Some environment variables to set:
 
 - BASIC_USERNAME - 343434dev
 - BASIC_PASSWORD - mysecretdev
-- BASE_URL: https://api.zogofinance.com/production/v1/integration/analytics
 
 sample curl with test credentials:
 
@@ -32,9 +31,12 @@ Test credentials:
 
 ### Query Parameter Explanations:
 
-- start_date
+<details>
+<summary>`start_date`:</summary>
   - YYYY-MM-DD format, query starts at 00:00:00 of the given day
   - if empty, will search from the earliest data point
+  <details>
+
 - end_date
   - YYYY-MM-DD format, query ends at 23:59:59 of the given day
   - if empty, will search from the most recent data point
@@ -65,9 +67,11 @@ Test credentials:
       - 35+
     - unknown
 - zip_codes
+
   - only applicable for “standalone” platform
   - if empty, will search data from all zip codes
   - string that is `encodeURIComponent` and JSON.stringify of an array. js example:
+
   ```jsx
   const zip_codes = ["11111", "22222", "33333"];
 
@@ -80,35 +84,52 @@ Test credentials:
   const url = `https://api.zogofinance.com/integration/data?${query_string}`;
   ```
 
-# API routes:
+# API Reference
 
-<aside>
-💡 BASE_URL: https://api.zogofinance.com/production/v1/integration/analytics
+## General
 
-</aside>
+### API Base URL
 
-- GET /all-user
-  Description - get users who were created between the start and end date and zip codes for those users
-  Parameters:
-  - Optional Parameters
-    - `start_date`
-    - `end_date`
-    - `platform`
-    - `user_group`
-    - `age_group`
-    - `zip_codes`
-  Example 200 Response:
-  ```jsx
-  {
-  	total_user_count: 100,
-  	zip_codes: [
-  		{
-  			zip_code: "11111",
-  			total_user_count: 1,
-  		}
-  	],
-  }
-  ```
+All API routes should be appended to the following base URL: `https://api.zogofinance.com/production/v1/integration/analytics`
+
+## API Routes
+
+### GET `/all-user`
+
+<details>
+<summary>Details:</summary>
+
+**Description:**
+
+Get users (and their zip codes) who were created between the start and end date.
+
+User Access Tokens need to be generated and passed to the iframe to authenticate the user.
+
+**Parameters:**
+
+Optional
+
+- `start_date`
+- `end_date`
+- `platform`
+- `user_group`
+- `age_group`
+- `zip_codes`
+
+**Example 200 Response:**
+
+```json
+{
+  "total_user_count": 100,
+  "zip_codes": [
+    {
+      "zip_code": "11111",
+      "total_user_count": 1
+    }
+  ]
+}
+```
+
 - GET /active-user
   Description - get users who have logged in at least once between the start and end date.
   Parameters:
@@ -119,7 +140,7 @@ Test credentials:
     - `user_group`
     - `age_group`
     - `zip_codes`
-  Example 200 Response:
+      Example 200 Response:
   ```jsx
   {
   	active_user_count: 100,
@@ -135,7 +156,7 @@ Test credentials:
     - `user_group`
     - `age_group`
     - `zip_codes`
-  Example 200 Response:
+      Example 200 Response:
   ```jsx
   {
     skills: [
@@ -178,7 +199,7 @@ Test credentials:
       ];
     }
     ```
-  Example 200 Response:
+    Example 200 Response:
 - GET /module-completion
   Description - get module data for activity within the given start and end date
   Parameters:
@@ -189,7 +210,7 @@ Test credentials:
     - `user_group`
     - `age_group`
     - `zip_codes`
-  Example 200 Response:
+      Example 200 Response:
   ```jsx
   {
   	modules: [
@@ -218,7 +239,7 @@ Test credentials:
       - only applicable for standalone and digital banking platforms
     - `age_group`
     - `zip_codes`
-  Example 200 Response:
+      Example 200 Response:
   ```jsx
   {
   	parties: [
@@ -241,7 +262,7 @@ Test credentials:
     - `user_group`
     - `age_group`
     - `zip_codes`
-  Example 200 Response:
+      Example 200 Response:
   ```jsx
   {
     survey_results: [
