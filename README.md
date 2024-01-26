@@ -226,7 +226,7 @@ Optional
 
 **Description:**
 
-Get skill data for user activity within the given start and end date. Pre-test accuracy and confidence may only be available for some skills.
+Get skill data for users who completed skills within the given start and end date. Pre-test accuracy and confidence may only be available for some skills. The `confidence_increase` reflects the percentage of users whose confidence increased.
 
 **Parameters:**
 
@@ -251,8 +251,7 @@ Optional
       "category_id": 1,
       "pre_test_accuracy": 75.6,
       "post_test_accuracy": 99.0,
-      "pre_test_confidence": 75.0,
-      "post_test_confidence": 99.1
+      "confidence_increase": 75.0
     }
   ]
 }
