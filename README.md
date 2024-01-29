@@ -185,12 +185,13 @@ Optional
 
 **Description:**
 
-Get skill data for user activity within the given start and end date.
+Get skill data for user activity within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned.
 
 **Parameters:**
 
 Optional
 
+- `skill_id`
 - `start_date`
 - `end_date`
 - `platform`
@@ -266,12 +267,13 @@ Optional
 
 **Description:**
 
-Get module data for user activity within the given start and end date.
+Get module data for user activity within the given start and end date. If a `module_id` is sent in the request, the data for that single module will be returned.
 
 **Parameters:**
 
 Optional
 
+- `module_id`
 - `start_date`
 - `end_date`
 - `platform`
