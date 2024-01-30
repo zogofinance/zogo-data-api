@@ -1,23 +1,5 @@
 # Zogo Data API
 
-# Quick Start:
-
-Here’s a postman collection that can be useful:
-
-- ADD JSON postman collection
-
-Some environment variables to set:
-
-- BASIC_USERNAME - 343434dev
-- BASIC_PASSWORD - mysecretdev
-
-Sample curl with test credentials:
-
-```jsx
-curl --location 'https://api.zogofinance.com/production/v1/integration/analytics/integration/analytics/all-user' \
---header 'Authorization: Basic ZGF0YWFwaXRlc3Q6ZGF0YWFwaXRlc3Q='
-```
-
 # API Reference
 
 ## General
@@ -38,6 +20,13 @@ All API routes use basic authentication.
 
 - Username: `dataapitest`
 - Password: `dataapitest`
+
+Sample curl with test credentials:
+
+```jsx
+curl --location 'https://api.zogofinance.com/production/v1/integration/analytics/integration/analytics/all-user' \
+--header 'Authorization: Basic ZGF0YWFwaXRlc3Q6ZGF0YWFwaXRlc3Q='
+```
 
 ### Query Parameters
 
@@ -227,12 +216,13 @@ Optional
 
 **Description:**
 
-Get skill data for users who completed skills within the given start and end date. Pre-test accuracy and confidence may only be available for some skills. The `confidence_increase` reflects the percentage of users whose confidence increased.
+Get skill data for users who completed skills within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned. Only returns data for skills that have pre/post-tests. The `confidence_increase` reflects the percentage of users whose confidence increased.
 
 **Parameters:**
 
 Optional
 
+- `skill_id`
 - `start_date`
 - `end_date`
 - `platform`
