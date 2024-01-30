@@ -56,7 +56,7 @@ curl --location 'https://api.zogofinance.com/production/v1/integration/analytics
 <details>
 <summary><b>user_group</b></summary>
 
-- only applicable for `web` platform
+- only applicable when platform is set to `web`, otherwise will error
 - one of the following:
   - `unregistered`
   - `registered`
@@ -66,7 +66,7 @@ curl --location 'https://api.zogofinance.com/production/v1/integration/analytics
 <details>
 <summary><b>age_group</b></summary>
 
-- only applicable for `standalone` and `digital_banking` platforms
+- only applicable when platform is set to either `standalone` or `digital_banking`, otherwise will error
 - if empty, will search data from all users
 - one of the following:
   - `teen` (13-17 years old)
@@ -79,7 +79,7 @@ curl --location 'https://api.zogofinance.com/production/v1/integration/analytics
 <details>
 <summary><b>zip_codes</b></summary>
 
-- only applicable for `standalone` platform
+- only applicable when platform is set to `standalone`, otherwise will error
 - if empty, will search data from all zip codes
 - Javascript example:
 
