@@ -1,6 +1,4 @@
-# Zogo Data API
-
-# API Reference
+# Zogo Data API Reference
 
 ## General
 
@@ -21,7 +19,7 @@ All API routes use basic authentication.
 - Username: `dataapitest`
 - Password: `dataapitest`
 
-Sample curl with test credentials:
+<ins>Sample curl with test credentials:</ins>
 
 ```jsx
 curl --location 'https://api.zogofinance.com/production/v1/integration/analytics/integration/analytics/all-user' \
