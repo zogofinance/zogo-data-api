@@ -14,76 +14,78 @@ All API routes use basic authentication.
 
 - Please get your credentials from your Zogo representative.
 
-**Testing/Development:**
+**Testing/Demo Credentials:**
 
 - Username: `dataapitest`
 - Password: `dataapitest`
 
 <ins>Sample curl with test credentials:</ins>
 
-```jsx
-curl --location 'https://api.zogofinance.com/production/v1/integration/analytics/integration/analytics/all-user' \
+```bash
+curl --location 'https://api.zogofinance.com/production/v1/integration/analytics/integration/analytics/all-user'
 --header 'Authorization: Basic ZGF0YWFwaXRlc3Q6ZGF0YWFwaXRlc3Q='
 ```
 
 ### Query Parameters
+The following query parameters can be appended to the API requests.  See the details of the individual API endpoint to see whether or not a particular query parameter is applicaple for that endpoint.
 
 <details>
-<summary><b>start_date</b></summary>
+<summary>**start_date**</summary>
 
 - `YYYY-MM-DD` format, query starts at 00:00:00 of the given day
 - if empty, will search from the earliest data point
-  </details>
+</details>
 
 <details>
-<summary><b>end_date</b></summary>
+<summary>**end_date**</summary>
 
 - `YYYY-MM-DD` format, query ends at 23:59:59 of the given day
 - if empty, will search from the most recent data point
 </details>
 
 <details>
-<summary><b>platform</b></summary>
-
+<summary>**platform**</summary>
 - one of the following:
   - `web`
   - `digital_banking`
   - `standalone`
   - `integration`
+- if specified, will only include data for users of that platform
 - if empty, will search data from all platforms
 </details>
 
 <details>
-<summary><b>user_group</b></summary>
+<summary>**user_group**</summary>
 
 - only applicable when platform is set to `web`, otherwise will error
 - one of the following:
   - `unregistered`
   - `registered`
+- if specified, will only include data for registered or unregistered users
 - if empty, will search data from both unregistered and registered users
   </details>
 
 <details>
-<summary><b>age_group</b></summary>
+<summary>**age_group**</summary>
 
-- only applicable when platform is set to either `standalone` or `digital_banking`, otherwise will error
+- only applicable when platform is set to either `standalone` or `digital_banking`, otherwise will error (no age data is collected for the other platforms)
 - if empty, will search data from all users
 - one of the following:
   - `teen` (13-17 years old)
   - `young_adult` (18-24 years old)
-  - `adult` (25-34 years old)
-  - `old_adult` (35+ years old)
+  - `adult` (25-40 years old)
+  - `old_adult` (40+ years old)
   - `unknown`
   </details>
 
 <details>
-<summary><b>zip_codes</b></summary>
+<summary>**zip_codes**</summary>
 
-- only applicable when platform is set to `standalone`, otherwise will error
+- only applicable when platform is set to `standalone`, otherwise will error (zip code data is only collected for standalone)
 - if empty, will search data from all zip codes
-- Javascript example:
+- JavaScript example:
 
-  ```jsx
+  ```js
   const zip_codes = ["11111", "22222", "33333"];
 
   // Convert the array to a JSON string and include it in the query parameter
@@ -97,6 +99,33 @@ curl --location 'https://api.zogofinance.com/production/v1/integration/analytics
 
 </details>
 
+
+<details>
+<summary>**skill_id**</summary>
+
+- for endpoints that return skill data, this allows you to specify returning data for a specific skill.
+- see the content library in your Partner Portal to get the skill id for a specific skill.
+- if empty, will search data for all skills.
+
+</details>
+
+<details>
+<summary>**module_id**</summary>
+
+- for endpoints that return module data, this allows you to specify returning data for a specific module.
+- see the content library in your Partner Portal to get the module id for a specific module.
+- if empty, will search data for all modules.
+
+</details>
+
+<details>
+<summary>**page**</summary>
+
+- required for any endpoint that supports pagination (will default to one if not specified) LIAM DO THIS
+- see the `page_count` property on the return object to see how many pages of data exist
+
+</details>
+
 ## API Routes
 
 ### GET `/all-user`
@@ -106,11 +135,11 @@ curl --location 'https://api.zogofinance.com/production/v1/integration/analytics
 
 **Description:**
 
-Get users (and their zip codes) who were created between the start and end date.
+Get users (and their zip codes) who were created between the start and end date.  There will only be zip code data if their are standalone users in the returned data set.
 
 **Parameters:**
 
-Optional
+Optional:
 
 - `start_date`
 - `end_date`
@@ -124,7 +153,7 @@ Optional
 ```json
 {
   "total_user_count": 100,
-  "zip_codes": [
+  "zip_codes": [ // LIAM what happens here if there are no standalone users in the returned data set?
     {
       "zip_code": "11111",
       "total_user_count": 1
@@ -146,7 +175,7 @@ Get users who have logged in at least once between the start and end date.
 
 **Parameters:**
 
-Optional
+Optional:
 
 - `start_date`
 - `end_date`
@@ -172,11 +201,15 @@ Optional
 
 **Description:**
 
-Get skill data for user activity within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned.
+Get skill data for user activity within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned.  LIAM TO CONFIRM: If there is no user activity for a partiuclar skill, it will not be returned in the response.
 
 **Parameters:**
 
-Optional
+Required:
+
+- `page` (3 skills per page)
+
+Optional:
 
 - `skill_id`
 - `start_date`
@@ -200,8 +233,10 @@ Optional
       "active_user_count": 200,
       "completed_user_count": 100,
       "question_accuracy": 98.1
-    }
-  ]
+    },
+    ...
+  ],
+  "page_count": 5 // LIAM TO CONFIRM
 }
 ```
 
@@ -214,16 +249,21 @@ Optional
 
 **Description:**
 
-Get skill data for users who completed skills within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned. Only returns data for skills that have pre/post-tests. The `confidence_increase` reflects the percentage of users whose confidence increased.
+Get skill data for users who completed skills within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned. LIAM TO CONFIRM: Only returns data for skills that have pre/post-tests and have at least one user who completed the skill. The `confidence_increase` reflects the percentage of users whose confidence increased between the pre-test and post test for that skill.
 
 **Parameters:**
 
-Optional
+Required:
+
+- `page` (3 skills per page)
+
+Optional:
 
 - `skill_id`
 - `start_date`
 - `end_date`
 - `platform`
+- `user_group` // LIAM TO CONFIRM this parameter was missing
 - `age_group`
 - `zip_codes`
 
@@ -242,7 +282,8 @@ Optional
       "post_test_accuracy": 99.0,
       "confidence_increase": 75.0
     }
-  ]
+  ],
+  "page_count": 5
 }
 ```
 
@@ -255,11 +296,15 @@ Optional
 
 **Description:**
 
-Get module data for user activity within the given start and end date. If a `module_id` is sent in the request, the data for that single module will be returned.
+Get module data for user activity within the given start and end date. If a `module_id` is sent in the request, the data for that single module will be returned.  LIAM TO CONFIRM: If there is no user activity for a partiuclar module, it will not be returned in the response.
 
 **Parameters:**
 
-Optional
+Required:
+
+- `page` (50 modules per page)
+
+Optional:
 
 - `module_id`
 - `start_date`
@@ -286,29 +331,29 @@ Optional
       "active_user_count": 200,
       "completed_user_count": 100
     }
-  ]
+  ],
+  "page_count": 5
 }
 ```
 
 </details>
 
-### GET `/pineapple-party-engagement`
+### GET `/points-party-engagement` CHANGING ENDPOINT NAME
 
 <details>
 <summary>Details:</summary>
 
 **Description:**
 
-Get pineapple party data for parties started within the given start and end date.
+Get points party data for parties started within the given start and end date.
 
 **Parameters:**
 
-Optional
+Optional:
 
 - `start_date`
 - `end_date`
-- `platform`
-  - only applicable for `standalone` and `digital_banking` platforms
+- `platform` (only applicable for `standalone` and `digital_banking` platforms)
 - `age_group`
 - `zip_codes`
 
@@ -336,11 +381,15 @@ Optional
 
 **Description:**
 
-Get survey data answered within the given start and end date.
+Get survey data answered within the given start and end date.  LIAM TO CONFIRM: Response exludes any surveys that have no engagement.
 
 **Parameters:**
 
-Optional
+Required:
+
+- `page` (~10 surveys per page (could be less if surveys have no engagement))
+
+Optional:
 
 - `start_date`
 - `end_date`
@@ -374,12 +423,9 @@ Optional
         }
       ]
     }
-  ]
+  ],
+  "page_count": 5
 }
 ```
 
 </details>
-
-## Rate Limits
-
-No rate limits
