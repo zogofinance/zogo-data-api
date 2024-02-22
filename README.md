@@ -27,24 +27,25 @@ curl --location 'https://api.zogofinance.com/production/v1/integration/analytics
 ```
 
 ### Query Parameters
-The following query parameters can be appended to the API requests.  See the details of the individual API endpoint to see whether or not a particular query parameter is applicaple for that endpoint.
+The following query parameters can be appended to the API requests.  See the details of the individual API endpoint to see whether or not a particular query parameter is applicaple for that endpoint. LIAM QUESTION: are we filering out all user_type_id 3,4 users?
 
 <details>
-<summary>**start_date**</summary>
+<summary><b>start_date<b/></summary>
 
-- `YYYY-MM-DD` format, query starts at 00:00:00 of the given day
+- `YYYY-MM-DD` format, query starts at 00:00:00 UTC (LIAM TO CONFIRM) of the given day
 - if empty, will search from the earliest data point
 </details>
 
 <details>
-<summary>**end_date**</summary>
+<summary><b>end_date<b/></summary>
 
 - `YYYY-MM-DD` format, query ends at 23:59:59 of the given day
 - if empty, will search from the most recent data point
 </details>
 
 <details>
-<summary>**platform**</summary>
+<summary><b>platform<b/></summary>
+
 - one of the following:
   - `web`
   - `digital_banking`
@@ -55,7 +56,7 @@ The following query parameters can be appended to the API requests.  See the det
 </details>
 
 <details>
-<summary>**user_group**</summary>
+<summary><b>user_group<b/></summary>
 
 - only applicable when platform is set to `web`, otherwise will error
 - one of the following:
@@ -66,7 +67,7 @@ The following query parameters can be appended to the API requests.  See the det
   </details>
 
 <details>
-<summary>**age_group**</summary>
+<summary><b>age_group<b/></summary>
 
 - only applicable when platform is set to either `standalone` or `digital_banking`, otherwise will error (no age data is collected for the other platforms)
 - if empty, will search data from all users
@@ -75,11 +76,11 @@ The following query parameters can be appended to the API requests.  See the det
   - `young_adult` (18-24 years old)
   - `adult` (25-40 years old)
   - `old_adult` (40+ years old)
-  - `unknown`
+  - `unknown` (this will include digital_banking users that have no age data)
   </details>
 
 <details>
-<summary>**zip_codes**</summary>
+<summary><b>zip_codes<b/></summary>
 
 - only applicable when platform is set to `standalone`, otherwise will error (zip code data is only collected for standalone)
 - if empty, will search data from all zip codes
@@ -101,7 +102,7 @@ The following query parameters can be appended to the API requests.  See the det
 
 
 <details>
-<summary>**skill_id**</summary>
+<summary><b>skill_id<b/></summary>
 
 - for endpoints that return skill data, this allows you to specify returning data for a specific skill.
 - see the content library in your Partner Portal to get the skill id for a specific skill.
@@ -110,7 +111,7 @@ The following query parameters can be appended to the API requests.  See the det
 </details>
 
 <details>
-<summary>**module_id**</summary>
+<summary><b>module_id<b/></summary>
 
 - for endpoints that return module data, this allows you to specify returning data for a specific module.
 - see the content library in your Partner Portal to get the module id for a specific module.
@@ -119,9 +120,9 @@ The following query parameters can be appended to the API requests.  See the det
 </details>
 
 <details>
-<summary>**page**</summary>
+<summary><b>page<b/></summary>
 
-- required for any endpoint that supports pagination (will default to one if not specified) LIAM DO THIS
+- required for any endpoint that supports pagination (will default to `1` if not specified) LIAM DO THIS
 - see the `page_count` property on the return object to see how many pages of data exist
 
 </details>
@@ -135,7 +136,7 @@ The following query parameters can be appended to the API requests.  See the det
 
 **Description:**
 
-Get users (and their zip codes) who were created between the start and end date.  There will only be zip code data if their are standalone users in the returned data set.
+Get users (and their zip codes) who were created between the start and end date.  There will only be zip code data if there are standalone users in the returned data set.
 
 **Parameters:**
 
@@ -201,7 +202,7 @@ Optional:
 
 **Description:**
 
-Get skill data for user activity within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned.  LIAM TO CONFIRM: If there is no user activity for a partiuclar skill, it will not be returned in the response.
+Get skill data for user activity within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned.  LIAM TO CONFIRM: If there is no user activity for a particular skill, it will not be returned in the response.
 
 **Parameters:**
 
