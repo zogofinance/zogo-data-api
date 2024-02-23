@@ -8,38 +8,32 @@ All API routes should be appended to the following base URL: `https://api.zogofi
 
 ### Authentication
 
-All API routes use basic authentication.
+All API routes require a basic auth token.
 
-**Production:**
+To generate the Basic token, you will take the client_id and client_secret in “client_id:client_secret” format and encode it using base64 encoding. For testing you can also use the Basic Auth with your credentials in apps like Postman.
 
-- Please get your credentials from your Zogo representative.
+> 💡 This encoding can be done automatically with [this tool](https://www.debugbear.com/basic-auth-header-generator)
 
-**Testing/Demo Credentials:**
+For testing/development you can use the following basic token: “Basic ZGF0YWFwaXRlc3Q6ZGF0YWFwaXRlc3Q=” (Note: there will be very little user data for this testing client.)
 
-- Username: `dataapitest`
-- Password: `dataapitest`
+- client_id “dataapitest” and client_secret “dataapitest”
 
-<ins>Sample curl with test credentials:</ins>
-
-```bash
-curl --location 'https://api.zogofinance.com/production/v1/integration/analytics/integration/analytics/all-user'
---header 'Authorization: Basic ZGF0YWFwaXRlc3Q6ZGF0YWFwaXRlc3Q='
-```
+For production, please reach out to Zogo for production credentials.
 
 ### Query Parameters
-The following query parameters can be appended to the API requests.  See the details of the individual API endpoint to see whether or not a particular query parameter is applicaple for that endpoint. LIAM QUESTION: are we filering out all user_type_id 3,4 users?
+The following query parameters can be appended to the API requests.  See the details of the individual API endpoint to see whether or not a particular query parameter is applicaple for that endpoint.
 
 <details>
 <summary><b>start_date<b/></summary>
 
-- `YYYY-MM-DD` format, query starts at 00:00:00 UTC (LIAM TO CONFIRM) of the given day
+- `YYYY-MM-DD` format, query starts at 00:00:00 UTC of the given day
 - if empty, will search from the earliest data point
 </details>
 
 <details>
 <summary><b>end_date<b/></summary>
 
-- `YYYY-MM-DD` format, query ends at 23:59:59 of the given day
+- `YYYY-MM-DD` format, query ends at 23:59:59 UTC of the given day
 - if empty, will search from the most recent data point
 </details>
 
@@ -122,7 +116,7 @@ The following query parameters can be appended to the API requests.  See the det
 <details>
 <summary><b>page<b/></summary>
 
-- required for any endpoint that supports pagination (will default to `1` if not specified) LIAM DO THIS
+- required for any endpoint that supports pagination
 - see the `page_count` property on the return object to see how many pages of data exist
 
 </details>
@@ -154,7 +148,7 @@ Optional:
 ```json
 {
   "total_user_count": 100,
-  "zip_codes": [ // LIAM what happens here if there are no standalone users in the returned data set?
+  "zip_codes": [ // will be an empty array if no standalone users returned
     {
       "zip_code": "11111",
       "total_user_count": 1
@@ -202,7 +196,7 @@ Optional:
 
 **Description:**
 
-Get skill data for user activity within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned.  LIAM TO CONFIRM: If there is no user activity for a particular skill, it will not be returned in the response.
+Get skill data for user activity within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned. If there is no user activity for a particular skill, it will not be returned in the response.
 
 **Parameters:**
 
@@ -237,7 +231,7 @@ Optional:
     },
     ...
   ],
-  "page_count": 5 // LIAM TO CONFIRM
+  "page_count": 5
 }
 ```
 
@@ -250,13 +244,13 @@ Optional:
 
 **Description:**
 
-Get skill data for users who completed skills within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned. LIAM TO CONFIRM: Only returns data for skills that have pre/post-tests and have at least one user who completed the skill. The `confidence_increase` reflects the percentage of users whose confidence increased between the pre-test and post test for that skill.
+Get skill data for users who completed skills within the given start and end date. If a `skill_id` is sent in the request, the data for that single skill will be returned. Only returns data for skills that have pre/post-tests and have at least one user who completed the skill. The `confidence_increase` reflects the percentage of users whose confidence increased between the pre-test and post test for that skill.
 
 **Parameters:**
 
 Required:
 
-- `page` (3 skills per page)
+- `page` (~3 skills per page (could be less if some of the skills have no engagement) )
 
 Optional:
 
@@ -264,7 +258,7 @@ Optional:
 - `start_date`
 - `end_date`
 - `platform`
-- `user_group` // LIAM TO CONFIRM this parameter was missing
+- `user_group`
 - `age_group`
 - `zip_codes`
 
@@ -297,7 +291,7 @@ Optional:
 
 **Description:**
 
-Get module data for user activity within the given start and end date. If a `module_id` is sent in the request, the data for that single module will be returned.  LIAM TO CONFIRM: If there is no user activity for a partiuclar module, it will not be returned in the response.
+Get module data for user activity within the given start and end date. If a `module_id` is sent in the request, the data for that single module will be returned. If there is no user activity for a partiuclar module, it will not be returned in the response.
 
 **Parameters:**
 
@@ -339,7 +333,7 @@ Optional:
 
 </details>
 
-### GET `/points-party-engagement` CHANGING ENDPOINT NAME
+### GET `/points-party-engagement`
 
 <details>
 <summary>Details:</summary>
@@ -382,7 +376,7 @@ Optional:
 
 **Description:**
 
-Get survey data answered within the given start and end date.  LIAM TO CONFIRM: Response exludes any surveys that have no engagement.
+Get survey data answered within the given start and end date. Response exludes any surveys that have no engagement.
 
 **Parameters:**
 
